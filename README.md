@@ -1,4 +1,4 @@
-## Products REST APIs in Nestjs
+## Products REST APIs in NestJS
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
