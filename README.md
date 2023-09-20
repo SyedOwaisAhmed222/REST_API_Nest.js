@@ -1,3 +1,12 @@
+## Products REST APIs in Nestjs
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- [Node.js](https://nodejs.org/) installed on your system.
+- [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/) package manager installed.
+- [TypeScript](https://www.typescriptlang.org/) installed globally (you can install it using `npm install -g typescript`).
+
 ## Installation
 
 ```bash
