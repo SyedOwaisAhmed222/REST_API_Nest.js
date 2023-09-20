@@ -17,22 +17,22 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 ## Add a Product
-Path: /products (HTTP POST)
+Path: /products (HTTP POST)  
 
-Description: Adds a new product to the database.
+Description: Adds a new product to the database.   
 
-Request Body:
+Request Body:  
 
-title (string): The title of the product.
+title (string): The title of the product.  
 
-description (string): The description of the product.
+description (string): The description of the product.  
 
-price (number): The price of the product.
+price (number): The price of the product.  
 
-Response: Returns the ID of the newly created product.
+Response: Returns the ID of the newly created product.  
 
 ## Get All Products
-Path: /products (HTTP GET)
+Path: /products (HTTP GET)  
 
 Description: Retrieves a list of all products from the database.
 
