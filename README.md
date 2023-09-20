@@ -16,6 +16,40 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+## Add a Product
+Path: /products (HTTP POST)
+Description: Adds a new product to the database.
+Request Body:
+title (string): The title of the product.
+description (string): The description of the product.
+price (number): The price of the product.
+Response: Returns the ID of the newly created product.
+## Get All Products
+Path: /products (HTTP GET)
+Description: Retrieves a list of all products from the database.
+Response: Returns an array of product objects.
+## Get a Single Product
+Path: /products/:id (HTTP GET)
+Description: Retrieves a single product by its ID from the database.
+URL Parameter:
+id (string): The ID of the product to retrieve.
+Response: Returns the product object with the specified ID.
+## Update a Product
+Path: /products/:id (HTTP PATCH)
+Description: Updates an existing product in the database.
+URL Parameter:
+id (string): The ID of the product to update.
+Request Body: Provide the fields you want to update:
+title (string): The updated title of the product.
+description (string): The updated description of the product.
+price (number): The updated price of the product.
+Response: Returns null after the update is completed.
+## Remove a Product
+Path: /products/:id (HTTP DELETE)
+Description: Deletes an existing product from the database.
+URL Parameter:
+id (string): The ID of the product to delete.
+Response: Returns null after the deletion is completed.
 
 ## Test
 
@@ -30,16 +64,3 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
