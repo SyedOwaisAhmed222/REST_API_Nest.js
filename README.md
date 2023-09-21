@@ -1,4 +1,4 @@
-## Products REST APIs in NestJS
+## Products REST APIs in NestJS - Prisma - PostgreSQL
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
