@@ -1,53 +1,32 @@
-import { Injectable, NotFoundException, RequestTimeoutException } from '@nestjs/common';
-import { Product } from './product.model';
+import { Injectable } from '@nestjs/common';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class ProductService {
-  products: Product[] = [];
+export class ProductsService {
+  constructor(private prisma: PrismaService) {}
 
-  insertProduct(title: string, desc: string, price: number) {
-    const prodId = Math.random().toString();
-    const newProduct = new Product(prodId, title, desc, price);
-    this.products.push(newProduct);
-    return prodId;
+  create(createProductDto: CreateProductDto) {
+    return this.prisma.product.create({ data: createProductDto });
   }
 
-  getProducts() {
-    return [...this.products];
+  findAll() {
+    return this.prisma.product.findMany();
   }
 
-  getSingleProduct(productId: string) {
-    const product = this.findProduct(productId)[0]
-   
-    return { ...product };
+  findOne(id: number) {
+    return this.prisma.product.findUnique({ where: { id } });
   }
 
-  updateProduct(productId: string, title: string, desc: string, price: number ) {
-    const [product, index] = this.findProduct(productId) 
-    const updatedProduct = {...product}
-    if (title) {
-        updatedProduct.title=title
-    }
-    if (desc) {
-        updatedProduct.description=desc
-    }
-    if (price) {
-        updatedProduct.price = price
-    }
-    this.products[index] = updatedProduct; 
+  update(id: number, updateProductDto: UpdateProductDto) {
+    return this.prisma.product.update({
+      where: { id },
+      data: updateProductDto,
+    });
   }
 
-  private findProduct(id: string): [Product, number] {
-    const productIndex = this.products.findIndex((prod) => prod.id === id);
-    const product = this.products[productIndex]
-    if (!product) {
-        throw new NotFoundException("Could not find product")
-    }
-    return [product, productIndex]
-  }
-
-  deleteProduct(prodId: string) {
-    const index = this.findProduct(prodId)[1];
-    this.products.splice(index,1);
+  remove(id: number) {
+    return this.prisma.product.delete({ where: { id } });
   }
 }

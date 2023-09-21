@@ -1,48 +1,50 @@
-import { Controller, Post, Body, Get, Param, Patch, Delete } from '@nestjs/common';
-import { ProductService } from './products.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { ProductsService } from './products.service';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ProductEntity } from './entities/product.entity';
 
 @Controller('products')
-export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+@ApiTags('Products')
+export class ProductsController {
+  constructor(private readonly productsService: ProductsService) {}
+
   @Post()
-  addProduct(
-    @Body('title') prodTitle: string,
-    @Body('description') prodDesc: string,
-    @Body('price') prodPrice: number,
-  ) {
-    const myGeneratedId = this.productService.insertProduct(
-      prodTitle,
-      prodDesc,
-      prodPrice,
-    );
-    return { id: myGeneratedId };
+  @ApiCreatedResponse({ type: ProductEntity })
+  create(@Body() createProductDto: CreateProductDto) {
+    return this.productsService.create(createProductDto);
   }
 
   @Get()
-  getAllProducts() {
-    return this.productService.getProducts();
+  @ApiOkResponse({ type: ProductEntity, isArray: true })
+  findAll() {
+    return this.productsService.findAll();
   }
 
   @Get(':id')
-  getProduct(@Param('id') prodId: string) {
-    return this.productService.getSingleProduct(prodId);
+  @ApiOkResponse({ type: ProductEntity })
+  findOne(@Param('id') id: string) {
+    return this.productsService.findOne(+id);
   }
 
   @Patch(':id')
-  updateProduct(
-    @Param('id') prodId: string,
-    @Body('title') prodTitle: string,
-    @Body('description') prodDesc: string,
-    @Body('price') prodPrice: number,
-  ) {
-    this.productService.updateProduct(prodId, prodTitle, prodDesc, prodPrice)
-    return null;
+  @ApiOkResponse({ type: ProductEntity })
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+    return this.productsService.update(+id, updateProductDto);
   }
 
-  @Delete(":id")
-  removeProduct(@Param('id') prodId: string) {
-    this.productService.deleteProduct(prodId);
-    return null
-
+  @Delete(':id')
+  @ApiOkResponse({ type: ProductEntity })
+  remove(@Param('id') id: string) {
+    return this.productsService.remove(+id);
   }
 }
