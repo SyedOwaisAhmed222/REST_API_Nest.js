@@ -15,4 +15,14 @@ model Product {
   title       String   @unique
   description String
   price  Int
+  owner      User?    @relation(fields: [ownerId], references: [id])
+  ownerId    Int?
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  email     String    @unique
+  password  String
+  products  Product[]
 }
