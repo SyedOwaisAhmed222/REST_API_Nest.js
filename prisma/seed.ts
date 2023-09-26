@@ -1,38 +1,49 @@
 // prisma/seed.ts
 
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 // initialize Prisma Client
 const prisma = new PrismaClient();
+const roundsOfHashing = 10;
 
 async function main() {
   // create two dummy articles
+  const passwordSabin = await bcrypt.hash('password-sabin', roundsOfHashing);
+  const passwordAlex = await bcrypt.hash('password-alex', roundsOfHashing);
+
 
   const user1 = await prisma.user.upsert({
     where: { email: 'sabin@adams.com' },
-    update: {},
+    update: {
+      password: passwordSabin,
+    },
     create: {
       email: 'sabin@adams.com',
       name: 'Sabin Adams',
-      password: 'password-sabin',
+      password: passwordSabin,
     },
   });
 
   const user2 = await prisma.user.upsert({
     where: { email: 'alex@ruheni.com' },
-    update: {},
+    update: {
+      password: passwordAlex,
+
+    },
     create: {
       email: 'alex@ruheni.com',
       name: 'Alex Ruheni',
-      password: 'password-alex',
+      password: passwordAlex,
+
     },
   });
 
   const post1 = await prisma.product.upsert({
-    where: { title: 'abcd' },
+    where: { title: 'abcda' },
     update: {ownerId: user1.id,},
     create: {
-      title: 'Prisma Adds Support for MongoDB',
+      title: 'Prismass Adds Support for MongoDB',
       description:
         "We are excited to share that today's Prisma ORM release adds stable support for MongoDB!",
       price: 3400,
@@ -41,10 +52,10 @@ async function main() {
   });
 
   const post2 = await prisma.product.upsert({
-    where: { title: "abcd" },
+    where: { title: "abcda" },
     update: {ownerId: user2.id,},
     create: {
-      title: "What's new in Prisma? (Q1/22)",
+      title: "What'sss new in Prisma? (Q1/22)",
       description:
         'Learn about everything in the Prisma ecosystem and community from January to March 2022.',
       price: 3400,
@@ -53,10 +64,10 @@ async function main() {
   });
 
   const post3 = await prisma.product.upsert({
-    where: { title: "abcd" },
+    where: { title: "abaacd" },
     update: {},
     create: {
-      title: "Prisma Client Just Became a Lot More Flexible",
+      title: "Prisma ssClient Just Became a Lot More Flexible",
       description:
         'This article will explore various ways you can use Prisma Client extensions to add custom functionality to Prisma Client..',
       price: 3400,
