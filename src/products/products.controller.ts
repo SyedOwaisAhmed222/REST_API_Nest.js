@@ -8,12 +8,16 @@ import {
   Delete,
   ParseIntPipe,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ProductEntity } from './entities/product.entity';
+import { AdminRoleGuard } from 'src/auth/admin.role.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
 
 @Controller('products')
 @ApiTags('Products')
@@ -21,10 +25,12 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
+  @UseGuards(RolesGuard)
+  @Roles('admin', 'seller')
   @ApiCreatedResponse({ type: ProductEntity })
   async create(@Body() createProductDto: CreateProductDto) {
     return new ProductEntity(
-      await this.productsService.create(createProductDto)
+      await this.productsService.create(createProductDto),
     );
   }
 
@@ -32,7 +38,8 @@ export class ProductsController {
   @ApiOkResponse({ type: ProductEntity, isArray: true })
   async findAll() {
     const products = await this.productsService.findAll();
-    return products.map((article) => new ProductEntity(article));  }
+    return products.map((article) => new ProductEntity(article));
+  }
 
   @Get(':id')
   @ApiOkResponse({ type: ProductEntity })
@@ -54,5 +61,6 @@ export class ProductsController {
   @Delete(':id')
   @ApiOkResponse({ type: ProductEntity })
   async remove(@Param('id', ParseIntPipe) id: number) {
-    return new ProductEntity(await this.productsService.remove(id));  }
+    return new ProductEntity(await this.productsService.remove(id));
+  }
 }
