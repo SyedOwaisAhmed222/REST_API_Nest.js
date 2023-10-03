@@ -31,8 +31,6 @@ export class UsersController {
 
   @Get()
   @Roles()
-  // @UseGuards(JwtAuthGuard)
-  // @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity, isArray: true })
   async findAll() {
     const users = await this.usersService.findAll();
@@ -41,8 +39,6 @@ export class UsersController {
 
   @Get(':id')
   @Roles()
-  // @UseGuards(JwtAuthGuard)
-  // @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return new UserEntity(await this.usersService.findOne(id));
@@ -50,8 +46,6 @@ export class UsersController {
 
   @Patch(':id')
   @Roles('ADMIN')
-  // @UseGuards(JwtAuthGuard)
-  // @ApiBearerAuth()
   @ApiCreatedResponse({ type: UserEntity })
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -62,8 +56,6 @@ export class UsersController {
 
   @Delete(':id')
   @Roles('ADMIN')
-  // @UseGuards(JwtAuthGuard)
-  // @ApiBearerAuth()
   @ApiOkResponse({ type: UserEntity })
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);

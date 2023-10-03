@@ -4,7 +4,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.service';
-// import { JwtService } from '@nestjs/jwt';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthEntity } from './entity/auth.entity';
 import * as bcrypt from 'bcrypt';
@@ -15,7 +14,6 @@ import Redis from 'ioredis';
 export class AuthService {
   constructor(
     private prisma: PrismaService,
-    // private jwtService: JwtService,
     private readonly redisService: RedisService,
   ) {}
 
@@ -40,11 +38,6 @@ export class AuthService {
     const token = uuidv4();
     await redisClient.set(token, JSON.stringify(user));
     console.log(user)
-
-    // window.localStorage.setItem(
-    //   'token',
-    //   this.jwtService.sign({ userId: user.id }),
-    // );
 
     // Step 3: Generate a JWT containing the user's ID and return it
     return {
