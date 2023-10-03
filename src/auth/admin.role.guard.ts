@@ -1,3 +1,4 @@
+//unused 
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { UserRoles } from 'src/users/enums/user.enum';

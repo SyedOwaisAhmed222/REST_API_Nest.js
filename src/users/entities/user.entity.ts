@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '@prisma/client';
+import { User, UserRoles } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 
 
@@ -16,6 +16,9 @@ export class UserEntity implements User {
 
   @ApiProperty()
   email: string;
+
+  @ApiProperty()
+  role: UserRoles
 
   @Exclude()
   password: string;

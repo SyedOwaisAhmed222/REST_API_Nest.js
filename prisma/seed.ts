@@ -1,6 +1,6 @@
 // prisma/seed.ts
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, UserRoles } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 // initialize Prisma Client
@@ -12,38 +12,39 @@ async function main() {
   const passwordSabin = await bcrypt.hash('password-sabin', roundsOfHashing);
   const passwordAlex = await bcrypt.hash('password-alex', roundsOfHashing);
 
-
   const user1 = await prisma.user.upsert({
     where: { email: 'sabin@adams.com' },
     update: {
-      password: passwordSabin,
+      role: UserRoles.BUYER,
     },
     create: {
       email: 'sabin@adams.com',
       name: 'Sabin Adams',
       password: passwordSabin,
+      role: UserRoles.BUYER,
+
     },
   });
 
   const user2 = await prisma.user.upsert({
     where: { email: 'alex@ruheni.com' },
     update: {
-      password: passwordAlex,
-
+      role: UserRoles.ADMIN,
     },
     create: {
       email: 'alex@ruheni.com',
       name: 'Alex Ruheni',
       password: passwordAlex,
+      role: UserRoles.ADMIN,
 
     },
   });
 
   const post1 = await prisma.product.upsert({
-    where: { title: 'abcda' },
-    update: {ownerId: user1.id,},
+    where: { title: 'aabcdaa' },
+    update: { ownerId: user1.id },
     create: {
-      title: 'Prismass Adds Support for MongoDB',
+      title: 'aaPrismass Adds Support for MongoDB',
       description:
         "We are excited to share that today's Prisma ORM release adds stable support for MongoDB!",
       price: 3400,
@@ -52,22 +53,22 @@ async function main() {
   });
 
   const post2 = await prisma.product.upsert({
-    where: { title: "abcda" },
-    update: {ownerId: user2.id,},
+    where: { title: 'abaacdaaa' },
+    update: { ownerId: user2.id },
     create: {
-      title: "What'sss new in Prisma? (Q1/22)",
+      title: "aWhat'sss new in Paarisma? (Q1/22)",
       description:
         'Learn about everything in the Prisma ecosystem and community from January to March 2022.',
       price: 3400,
-      ownerId: user2.id
+      ownerId: user2.id,
     },
   });
 
   const post3 = await prisma.product.upsert({
-    where: { title: "abaacd" },
+    where: { title: 'abaaaacaad' },
     update: {},
     create: {
-      title: "Prisma ssClient Just Became a Lot More Flexible",
+      title: 'aPrisma ssClient Just Beaacame a Lot More Flexible',
       description:
         'This article will explore various ways you can use Prisma Client extensions to add custom functionality to Prisma Client..',
       price: 3400,

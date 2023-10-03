@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsNumber, IsPositive } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsPositive, IsOptional } from 'class-validator';
 export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
@@ -15,4 +15,11 @@ export class CreateProductDto {
   @IsPositive()
   @ApiProperty()
   price: number;
+
+  @IsNumber()
+  @IsPositive()
+  @IsOptional() // Use IsOptional to make ownerId optional
+  @ApiProperty({ required: false }) // Set required to false in ApiProperty
+  ownerId: number | null; // Use | null to allow null values
+
 }

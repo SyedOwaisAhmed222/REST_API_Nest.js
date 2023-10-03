@@ -13,7 +13,7 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ProductEntity } from './entities/product.entity';
 import { AdminRoleGuard } from 'src/auth/admin.role.guard';
 import { Roles } from 'src/auth/roles.decorator';
@@ -25,8 +25,7 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  @UseGuards(RolesGuard)
-  @Roles('admin', 'seller')
+  @Roles('ADMIN', 'SELLER')
   @ApiCreatedResponse({ type: ProductEntity })
   async create(@Body() createProductDto: CreateProductDto) {
     return new ProductEntity(
@@ -35,6 +34,7 @@ export class ProductsController {
   }
 
   @Get()
+  @Roles()
   @ApiOkResponse({ type: ProductEntity, isArray: true })
   async findAll() {
     const products = await this.productsService.findAll();
@@ -42,12 +42,14 @@ export class ProductsController {
   }
 
   @Get(':id')
+  @Roles()
   @ApiOkResponse({ type: ProductEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return new ProductEntity(await this.productsService.findOne(id));
   }
 
   @Patch(':id')
+  @Roles('ADMIN')
   @ApiOkResponse({ type: ProductEntity })
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -59,6 +61,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
+  @Roles('ADMIN', 'SELLER')
   @ApiOkResponse({ type: ProductEntity })
   async remove(@Param('id', ParseIntPipe) id: number) {
     return new ProductEntity(await this.productsService.remove(id));
