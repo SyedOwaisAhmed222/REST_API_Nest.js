@@ -14,14 +14,15 @@ export class RolesGuard implements CanActivate {
     if (roles === undefined) return true;
     const request = context.switchToHttp().getRequest();
     const token = request.headers.authorization;
-    const redisClient: Redis = this.redisService.getRedisClient();
-    const strUser = await redisClient.get(token);
+    // const redisClient: Redis = this.redisService.getRedisClient();
+    // const strUser = await redisClient.get(token);
+    const strUser = this.redisService.get(token)
 
     if (roles.length == 0 && strUser) {
       return true;
     }
 
-    const user = JSON.parse(strUser);
+    const user = JSON.parse(await strUser);
     console.log('role is ', user.role);
     console.log('roles are ', roles);
 

@@ -19,7 +19,19 @@ export class RedisService {
     });
   }
 
-  getRedisClient(): Redis {
-    return this.redisClient;
+  async get(key: string):Promise<string> {
+    const strUser = await this.redisClient.get(key);
+    return strUser
+
   }
+
+  async set(key: string, val: string ):Promise<void> {
+    await this.redisClient.set(key, val);
+  }
+
+  // getRedisClient(): Redis {
+  //   return this.redisClient;
+  // }
+
+
 }

@@ -34,9 +34,10 @@ export class AuthService {
       throw new UnauthorizedException('Invalid password');
     }
 
-    const redisClient: Redis = this.redisService.getRedisClient();
+    // const redisClient: Redis = this.redisService.getRedisClient();
     const token = uuidv4();
-    await redisClient.set(token, JSON.stringify(user));
+    // await redisClient.set(token, JSON.stringify(user));
+    this.redisService.set(token, JSON.stringify(user))
     console.log(user)
 
     // Step 3: Generate a JWT containing the user's ID and return it
