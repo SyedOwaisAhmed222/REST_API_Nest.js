@@ -16,9 +16,11 @@ export class RolesGuard implements CanActivate {
     const token = request.headers.authorization;
     // const redisClient: Redis = this.redisService.getRedisClient();
     // const strUser = await redisClient.get(token);
-    const strUser = this.redisService.get(token)
+    const strUser = await this.redisService.get(token)
 
     if (roles.length == 0 && strUser) {
+      console.log("role lenght", roles.length)
+      console.log("struser", strUser)
       return true;
     }
 
